@@ -3,16 +3,10 @@ import React, { createContext, useState } from "react";
 export const SelectionProductsContext = createContext();
 
 const SelectionProductsContextProvider = (props) => {
-  let productCart = [];
-  
-  const [selectionProducts, setSelectionProducts] = useState([]);
-
-
+  const [productCart, setProductCart] = useState([]);
 
   return (
-    <SelectionProductsContext.Provider
-      value={{ selectionProducts, setSelectionProducts, productCart }}
-    >
+    <SelectionProductsContext.Provider value={{ productCart, setProductCart }}>
       {props.children}
     </SelectionProductsContext.Provider>
   );

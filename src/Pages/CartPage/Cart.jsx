@@ -5,7 +5,7 @@ import { CartCountContext } from "../../Context/CartCountContext/CartCountContex
 import "./Cart.css";
 
 function Cart() {
-  const { productCart } = useContext(SelectionProductsContext);
+  const { productCart, setProductCart } = useContext(SelectionProductsContext);
   const { cartCount, setCartCount } = useContext(CartCountContext);
 
   const [item, setItem] = useState();
@@ -13,7 +13,6 @@ function Cart() {
   useEffect(() => {
     setItem(productCart);
   }, [productCart]);
-
 
   console.log("product", productCart);
   console.log("item", item);
@@ -26,11 +25,6 @@ function Cart() {
     const oldCount = itemChange.count;
     itemChange.count = Number(e.target.value);
     const newCount = itemChange.count;
-
-    // if(itemChange.count === 0){
-    //   const itemsLeft = item.filter((product) => product.id !== Number(e.target.id));
-    //   setItem(itemsLeft)
-    // }
 
     if (oldCount > newCount) {
       setCartCount(cartCount - 1);
@@ -50,7 +44,7 @@ function Cart() {
       (product) => product.id !== Number(e.target.id)
     );
     setCartCount(cartCount - itemtoDelete.count);
-    return setItem(itemsLeft);
+    setProductCart(itemsLeft);
   };
 
   return (
@@ -68,7 +62,7 @@ function Cart() {
                 id={product.id}
                 className="m-5 border border-dark"
                 type="number"
-                min="0"
+                min="1"
                 defaultValue={product.count}
                 onChange={(e) => handleValueChange(e)}
               />
@@ -88,36 +82,6 @@ function Cart() {
       )}
     </>
   );
-}
-
-{
-  /* {item?.map((product) => (
-        <div className="d-flex align-items-center m-4" key={product.id}>
-          <img src={product.url} alt="" style={{ width: "18rem" }} />
-          <div className="m-2">
-            <h3>{product.title}</h3>
-          </div>
-          <div className="d-flex align-items-center ">
-            <h5>Quantité</h5>
-            <input
-              id={product.id}
-              className="m-5 border border-dark"
-              type="number"
-              min="0"
-              defaultValue={product.count}
-              onChange={(e) => handleValueChange(e)}
-            />
-            <button
-              className="btn btn-warning"
-              type="submit"
-              id={product.id}
-              onClick={(e) => deleteItem(e)}
-            >
-              Supprimer le produit
-            </button>
-          </div>
-        </div>
-      ))} */
 }
 
 export default Cart;

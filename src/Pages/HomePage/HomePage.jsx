@@ -14,29 +14,21 @@ function HomePage() {
     e.preventDefault();
     const id = Number(e.target.id);
     const itemToAdd = displayProducts.find((product) => product.id === id);
-    
-    if(!productCart.length){
 
+    if (!productCart.length) {
       itemToAdd.count = totalItemToAdd;
       productCart.push(itemToAdd);
+    } else if (productCart.length) {
+      const itemExist = productCart.find((product) => product.id === id);
 
-    } else if (productCart.length){
-
-      const itemExist = productCart.find((product) => product.id === id)
-
-      if(itemExist){
-
-        itemExist.count += totalItemToAdd
-
+      if (itemExist) {
+        itemExist.count += totalItemToAdd;
       } else {
-
         itemToAdd.count = totalItemToAdd;
         productCart.push(itemToAdd);
-        
       }
     }
-    return productCart
-    
+    return productCart;
   };
 
   const handleSubmit = (e) => {
@@ -68,7 +60,7 @@ function HomePage() {
                   id={product.id}
                   className="m-5 border border-dark"
                   type="number"
-                  min="0"
+                  min="1"
                   defaultValue="0"
                   onChange={(e) => handleValueChange(e)}
                 />
