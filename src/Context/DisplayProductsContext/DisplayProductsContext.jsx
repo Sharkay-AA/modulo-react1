@@ -10,7 +10,7 @@ const DisplayProductsContextProvider = (props) => {
     axios
       .get("https://jsonplaceholder.typicode.com/photos?albumId=1&_limit=10")
       .then((res) => {
-       setDisplayProducts(res.data)
+        setDisplayProducts(res.data);
       });
   }, []);
 

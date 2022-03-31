@@ -5,45 +5,59 @@ import { CartCountContext } from "../../Context/CartCountContext/CartCountContex
 import "./Cart.css";
 
 function Cart() {
+  // Import des différents contextes
   const { productCart, setProductCart } = useContext(SelectionProductsContext);
   const { cartCount, setCartCount } = useContext(CartCountContext);
 
+  // Produit a modifier
   const [item, setItem] = useState();
 
+
+// Lorsque le panier change , actualisation des produits
   useEffect(() => {
     setItem(productCart);
   }, [productCart]);
 
-  console.log("product", productCart);
-  console.log("item", item);
-
+// Fonction de modification de la quantité
   const handleValueChange = (e) => {
     e.preventDefault();
-    const itemChange = item.find(
-      (product) => product.id === Number(e.target.id)
-    );
+
+    // Selection du produit a modifier
+    const itemChange = item.find(product => product.id === Number(e.target.id));
+
+    // Enregistrement de la quantité actuelle : Pour la gestion d'incrémentation / décrémentation du badge 
     const oldCount = itemChange.count;
+
+    // Modification de la quantité
     itemChange.count = Number(e.target.value);
+
+    // Enregistrement de la nouvelle quantité :  Pour la gestion d'incrémentation / décrémentation du badge 
     const newCount = itemChange.count;
 
+    // Si l'ancienne quantité est supérieure a la nouvelle : décrémentation du badge
     if (oldCount > newCount) {
       setCartCount(cartCount - 1);
+
+    // Si l'ancienne quantité est inférieure a la nouvelle : incrémentation du badge
     } else {
       setCartCount(cartCount + 1);
     }
-
-    console.log(item);
   };
 
+// Fonction de suppresion d'un produit
   const deleteItem = (e) => {
     e.preventDefault();
-    const itemtoDelete = productCart.find(
-      (product) => product.id === Number(e.target.id)
-    );
-    const itemsLeft = item.filter(
-      (product) => product.id !== Number(e.target.id)
-    );
+
+    // Selection du produit a supprimer
+    const itemtoDelete = productCart.find(product => product.id === Number(e.target.id));
+
+    // Enregistrement des produis restant après avoir retiré le produit choisi
+    const itemsLeft = item.filter(product => product.id !== Number(e.target.id));
+
+    // Modification du badge en décrémentant de la quantité du produit supprimé
     setCartCount(cartCount - itemtoDelete.count);
+
+    // Mise a jour du panier avec les produits restants
     setProductCart(itemsLeft);
   };
 
